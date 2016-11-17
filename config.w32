@@ -1,0 +1,12 @@
+// $Id$
+// vim:ft=javascript
+
+// If your extension references something external, use ARG_WITH
+// ARG_WITH("injection", "for injection support", "no");
+
+// Otherwise, use ARG_ENABLE
+// ARG_ENABLE("injection", "enable injection support", "no");
+
+if (PHP_INJECTION != "no") {
+	EXTENSION("injection", "injection.c");
+}
