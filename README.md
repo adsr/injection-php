@@ -1,21 +1,27 @@
 # injection-php
 
-This is a hand-written libinjection wrapper for PHP 7 (and 5). (libinjection
-includes a SWIG-generated PHP extension, but SWIG does not currently support PHP
-7.) See https://github.com/client9/libinjection for the underlying library.
+This is a hand-written libinjection wrapper for PHP 7+ (and 5). libinjection
+includes a SWIG-generated PHP extension. This one is simpler. It wraps two
+simple functions in the API, `libinjection_is_sqli` and `libinjection_xss`.
+
+See https://github.com/libinjection/libinjection for the underlying library.
 
 ### Building
 
     $ # Clone repo and submodule
-    $ git clone https://github.com/adsr/injection-php.git
+    $ git clone --recursive https://github.com/adsr/injection-php.git
     $ cd injection-php
-    $ git submodule update --init --recursive
     $
     $ # Install php-dev
     $ sudo apt-get install php-dev # ...or equivalent for your system
     $
-    $ # Build library and extension
-    $ make -C libinjection && phpize && ./configure && make
+    $ # Build library
+    $ pushd libinjection
+    $ ./autogen.sh && ./configure && make
+    $ popd
     $
-    $ # Run demo
-    $ php -dextension=`pwd`/modules/injection.so example.php
+    $ # Build PHP extension
+    $ phpize && ./configure && make
+    $
+    $ # Run tests
+    $ NO_INTERACTION=1 make test
